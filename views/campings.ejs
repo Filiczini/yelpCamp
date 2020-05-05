@@ -1,0 +1,9 @@
+<%- include("partials/header.ejs") %>
+
+<h1>Hello from campings</h1>
+<% campings.forEach(function(place){ %>
+    <li> <%= place.name %></li>
+    <img src="<%= place.image %>" alt="">
+<% }) %>
+
+<%- include("partials/footer.ejs") %>
