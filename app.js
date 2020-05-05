@@ -1,7 +1,8 @@
 let express = require("express");
 let request = require("request");
-let parser = require("body-parser");
+let bodyParser = require("body-parser");
 let app = express();
+
 let campings = [
   {
     name: "Crazy Creak",
@@ -19,7 +20,7 @@ let campings = [
       "https://images.unsplash.com/photo-1563299796-17596ed6b017?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
   },
 ];
-
+app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 
 app.get("/", function (req, res) {
@@ -28,6 +29,18 @@ app.get("/", function (req, res) {
 
 app.get("/campings", function (req, res) {
   res.render("campings", { campings: campings });
+});
+
+app.post("/campings", function (req, res) {
+  let name = req.body.name;
+  let url = req.body.url;
+  let addCamping = { name: name, image: url };
+  campings.push(addCamping);
+  res.redirect("campings");
+});
+
+app.get("/campings/add", function (req, res) {
+  res.render("addCamp");
 });
 
 app.listen(3000, function () {

@@ -1,0 +1,8 @@
+<%- include("partials/header.ejs") %>
+<h1>Add a camp</h1>
+<form action="/campings" method="POST">
+    <input type="text" name="name" placeholder="Enter camping name">
+    <input type="text" name="url" placeholder="Enter camping image Url">
+    <button type="submit">Add new Camp</button>
+</form>
+<%- include("partials/footer.ejs") %>
