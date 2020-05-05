@@ -1,9 +1,16 @@
 <%- include("partials/header.ejs") %>
 
-<h1>Hello from campings</h1>
-<% campings.forEach(function(place){ %>
-    <li> <%= place.name %></li>
-    <img src="<%= place.image %>" alt="">
-<% }) %>
+<div class="container">
+  <div class="row" style="justify-content: space-around;">
+    <% campings.forEach(function(place){ %>
+    <div class="col-md-4">
+        <figure class="figure">
+            <img src="<%= place.image %>" class="figure-img img-fluid rounded" alt="Camp pic">
+            <figcaption class="figure-caption"><%= place.name %></figcaption>
+        </figure>
+    </div>
+    <% }) %>
+  </div>
+</div>
 
 <%- include("partials/footer.ejs") %>
