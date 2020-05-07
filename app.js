@@ -3,6 +3,7 @@ let request = require("request");
 let bodyParser = require("body-parser");
 let app = express();
 let mongoose = require("mongoose");
+let Camping = require("./models/camping");
 
 mongoose.connect("mongodb://localhost:27017/yelpCamp", {
   useNewUrlParser: true,
@@ -12,20 +13,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 
-let campingSchema = new mongoose.Schema({
-  name: String,
-  image: String,
-  description: String,
-});
-
-let Campground = mongoose.model("Campground", campingSchema);
 // INDEX - Display main page
 app.get("/", function (req, res) {
   res.render("index");
 });
-// INDEX - Display all campgrounds
+// INDEX - Display all Campings
 app.get("/campings", function (req, res) {
-  Campground.find({}, function (err, allCamps) {
+  Camping.find({}, function (err, allCamps) {
     if (err) {
       console.log(err);
     } else {
@@ -33,13 +27,13 @@ app.get("/campings", function (req, res) {
     }
   });
 });
-// CREATE - Add new campground to DB
+// CREATE - Add new Camping to DB
 app.post("/campings", function (req, res) {
   let name = req.body.name;
   let url = req.body.url;
   let descr = req.body.descr;
   let addCamping = { name: name, image: url, description: descr };
-  Campground.create(addCamping, function (err, newlyCreated) {
+  Camping.create(addCamping, function (err, newlyCreated) {
     if (err) {
       console.log(err);
     } else {
@@ -47,13 +41,13 @@ app.post("/campings", function (req, res) {
     }
   });
 });
-// New - Show form to add New campground
+// New - Show form to add New Camping
 app.get("/campings/add", function (req, res) {
   res.render("addCamp");
 });
-// SHOW - Show more info about one campground
+// SHOW - Show more info about one Camping
 app.get("/campings/:id", function (req, res) {
-  Campground.findById(req.params.id, function (err, oneCamp) {
+  Camping.findById(req.params.id, function (err, oneCamp) {
     if (err) {
       console.log(err);
     } else {
