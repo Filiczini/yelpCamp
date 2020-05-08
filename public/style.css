@@ -9,3 +9,7 @@
 .form-container {
     min-width: 35%;
 }
+
+.card img {
+    width: 100%;
+}
