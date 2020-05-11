@@ -60,12 +60,67 @@ router.get("/:id", function (req, res) {
     });
 });
 
+// EDIT - edit a camping
+router.get("/:id/edit", checkOwner, function (req, res) {
+  Camping.findById(req.params.id, function (err, foundCamp) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.render("campings/editCamping", { camping: foundCamp });
+    }
+  });
+});
+
+// UPDATE - update a campground
+router.put("/:id", checkOwner, function (req, res) {
+  Camping.findByIdAndUpdate(req.params.id, req.body.camping, function (
+    err,
+    updatedCamp
+  ) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.redirect("/campings/" + req.params.id);
+    }
+  });
+});
+
+//DESTROY - delete the camping
+router.delete("/:id", checkOwner, function (req, res) {
+  Camping.findByIdAndRemove(req.params.id, function (err) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.redirect("/campings");
+    }
+  });
+});
+
 // loging check func()
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated()) {
     return next();
   }
   res.redirect("/login");
+}
+
+// check the owner of post MIDDLEWARE
+function checkOwner(req, res, next) {
+  if (req.isAuthenticated()) {
+    Camping.findById(req.params.id, function (err, foundCamp) {
+      if (err) {
+        redirect("back");
+      } else {
+        if (foundCamp.author.id.equals(req.user._id)) {
+          next();
+        } else {
+          res.redirect("back");
+        }
+      }
+    });
+  } else {
+    res.redirect("back");
+  }
 }
 
 module.exports = router;
