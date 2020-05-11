@@ -61,7 +61,7 @@ router.get("/:id", function (req, res) {
 });
 
 // EDIT - edit a camping
-router.get("/:id/edit", function (req, res) {
+router.get("/:id/edit", checkOwner, function (req, res) {
   Camping.findById(req.params.id, function (err, foundCamp) {
     if (err) {
       console.log(err);
@@ -102,6 +102,25 @@ function isLoggedIn(req, res, next) {
     return next();
   }
   res.redirect("/login");
+}
+
+// check the owner of post MIDDLEWARE
+function checkOwner(req, res, next) {
+  if (req.isAuthenticated()) {
+    Camping.findById(req.params.id, function (err, foundCamp) {
+      if (err) {
+        redirect("back");
+      } else {
+        if (foundCamp.author.id.equals(req.user._id)) {
+          next();
+        } else {
+          res.redirect("back");
+        }
+      }
+    });
+  } else {
+    res.redirect("back");
+  }
 }
 
 module.exports = router;
