@@ -45,8 +45,8 @@ app.use(function (req, res, next) {
 });
 
 // middleware for routes
-app.use(campingsRoutes);
-app.use(commentsRoutes);
+app.use("/campings", campingsRoutes);
+app.use("/campings/:id/comments", commentsRoutes);
 app.use(authRoutes);
 
 // server start
