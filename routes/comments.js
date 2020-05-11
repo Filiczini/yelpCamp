@@ -24,8 +24,13 @@ router.post("/", isLoggedIn, function (req, res) {
         if (err) {
           console.log(err);
         } else {
+          comment.author.id = req.user._id;
+          comment.author.username = req.user.username;
+          //save comment
+          comment.save();
           camping.comments.push(comment);
           camping.save();
+          console.log(comment);
           res.redirect("/campings/" + camping._id);
         }
       });
