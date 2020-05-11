@@ -2,7 +2,10 @@ let express = require("express");
 let bodyParser = require("body-parser");
 let app = express();
 let mongoose = require("mongoose");
+let passport = require("passport");
+let LocalStrategy = require("passport-local");
 let Camping = require("./models/camping");
+let User = require("./models/user");
 let Comment = require("./models/comment");
 
 mongoose.connect("mongodb://localhost:27017/yelpCamp", {
@@ -12,6 +15,8 @@ mongoose.connect("mongodb://localhost:27017/yelpCamp", {
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
+
+// PASSPORT CONFIGURATION
 
 //=================
 // MAIN ROUTES
