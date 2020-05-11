@@ -41,7 +41,7 @@ router.post(
 // GET - Logout route
 router.get("/logout", function (req, res) {
   req.logout();
-  res.redirect("/");
+  res.redirect("/campings");
 });
 
 // loging check func()

@@ -17,22 +17,33 @@ router.get("/", function (req, res) {
 });
 
 // CREATE - Add new Camping to DB
-router.post("/", function (req, res) {
+router.post("/", isLoggedIn, function (req, res) {
   let name = req.body.name;
   let url = req.body.url;
   let descr = req.body.descr;
-  let addCamping = { name: name, image: url, description: descr };
+  let author = {
+    id: req.user._id,
+    username: req.user.username,
+  };
+  let addCamping = {
+    name: name,
+    image: url,
+    description: descr,
+    author: author,
+  };
+  //create a new camping and save to db
   Camping.create(addCamping, function (err, newlyCreated) {
     if (err) {
       console.log(err);
     } else {
+      console.log(newlyCreated);
       res.redirect("/campings");
     }
   });
 });
 
 // New - Show form to add New Camping
-router.get("/add", function (req, res) {
+router.get("/add", isLoggedIn, function (req, res) {
   res.render("campings/addCamp");
 });
 
@@ -48,5 +59,13 @@ router.get("/:id", function (req, res) {
       }
     });
 });
+
+// loging check func()
+function isLoggedIn(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.redirect("/login");
+}
 
 module.exports = router;

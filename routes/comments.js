@@ -30,7 +30,6 @@ router.post("/", isLoggedIn, function (req, res) {
           comment.save();
           camping.comments.push(comment);
           camping.save();
-          console.log(comment);
           res.redirect("/campings/" + camping._id);
         }
       });
