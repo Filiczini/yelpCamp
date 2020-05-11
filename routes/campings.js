@@ -60,6 +60,31 @@ router.get("/:id", function (req, res) {
     });
 });
 
+// EDIT - edit a camping
+router.get("/:id/edit", function (req, res) {
+  Camping.findById(req.params.id, function (err, foundCamp) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.render("campings/editCamping", { camping: foundCamp });
+    }
+  });
+});
+
+// UPDATE - update a campground
+router.put("/:id", function (req, res) {
+  Camping.findByIdAndUpdate(req.params.id, req.body.camping, function (
+    err,
+    updatedCamp
+  ) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.redirect("/campings/" + req.params.id);
+    }
+  });
+});
+
 // loging check func()
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated()) {
