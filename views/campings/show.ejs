@@ -21,6 +21,9 @@
                     <p class="card-text"><%= camping.description %></p>
                     <p class="card-text"><small class="text-muted"><%= `submited by ${camping.author.username}` %></small></p>
                     <a class="btn btn-warning" href="/campings/<%= camping._id %>/edit">EDIT CAMP</a>
+                    <form action="/campings/<%= camping._id %>?_method=DELETE" method="POST" style="display: inline;">
+                       <button class="btn btn-danger" type="submit">DELETE CAMP</button>
+                    </form>     
                 </div>
             </div>
             <div class="text-right">

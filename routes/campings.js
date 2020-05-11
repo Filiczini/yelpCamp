@@ -85,6 +85,17 @@ router.put("/:id", function (req, res) {
   });
 });
 
+//DESTROY - delete the camping
+router.delete("/:id", function (req, res) {
+  Camping.findByIdAndRemove(req.params.id, function (err) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.redirect("/campings");
+    }
+  });
+});
+
 // loging check func()
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated()) {
