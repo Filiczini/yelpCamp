@@ -65,6 +65,17 @@ router.put("/:comment_id", function (req, res) {
   });
 });
 
+//DESTROY - DESTROY an exist comment by ID
+router.delete("/:comment_id", function (req, res) {
+  Comment.findByIdAndRemove(req.params.comment_id, function (err) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.redirect("/campings/" + req.params.id);
+    }
+  });
+});
+
 // Middleware - loging check func()
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated()) {
