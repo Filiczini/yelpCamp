@@ -54,6 +54,10 @@ app.use("/campings", campingsRoutes);
 app.use("/campings/:id/comments", commentsRoutes);
 app.use(authRoutes);
 
+app.get("/", function (req, res) {
+  res.render("index");
+});
+
 // server start
 app.listen(3000, function () {
   console.log("Server starts at: 3000");
