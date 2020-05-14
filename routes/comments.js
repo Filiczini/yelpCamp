@@ -37,7 +37,64 @@ router.post("/", isLoggedIn, function (req, res) {
   });
 });
 
-// loging check func()
+//EDIT - Edit an exist comment by ID
+router.get("/:comment_id/edit", checkCommentOwner, function (req, res) {
+  Comment.findById(req.params.comment_id, function (err, foundComment) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.render("comments/editComment", {
+        camping_id: req.params.id,
+        comment: foundComment,
+      });
+    }
+  });
+});
+
+//UPDATE - UPDATE an exist comment by ID
+router.put("/:comment_id", checkCommentOwner, function (req, res) {
+  Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function (
+    err,
+    updateComment
+  ) {
+    if (err) {
+      res.redirect("back");
+    } else {
+      res.redirect("/campings/" + req.params.id);
+    }
+  });
+});
+
+//DESTROY - DESTROY an exist comment by ID
+router.delete("/:comment_id", checkCommentOwner, function (req, res) {
+  Comment.findByIdAndRemove(req.params.comment_id, function (err) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.redirect("/campings/" + req.params.id);
+    }
+  });
+});
+
+function checkCommentOwner(req, res, next) {
+  if (req.isAuthenticated()) {
+    Comment.findById(req.params.comment_id, function (err, foundComment) {
+      if (err) {
+        redirect("back");
+      } else {
+        if (foundComment.author.id.equals(req.user._id)) {
+          next();
+        } else {
+          res.redirect("back");
+        }
+      }
+    });
+  } else {
+    res.redirect("back");
+  }
+}
+
+// Middleware - loging check func()
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated()) {
     return next();
