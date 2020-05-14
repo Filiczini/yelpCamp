@@ -37,7 +37,35 @@ router.post("/", isLoggedIn, function (req, res) {
   });
 });
 
-// loging check func()
+//EDIT - Edit an exist comment by ID
+router.get("/:comment_id/edit", function (req, res) {
+  Comment.findById(req.params.comment_id, function (err, foundComment) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.render("comments/editComment", {
+        camping_id: req.params.id,
+        comment: foundComment,
+      });
+    }
+  });
+});
+
+//UPDATE - UPDATE an exist comment by ID
+router.put("/:comment_id", function (req, res) {
+  Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function (
+    err,
+    updateComment
+  ) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.redirect("/campings/" + req.params.id);
+    }
+  });
+});
+
+// Middleware - loging check func()
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated()) {
     return next();

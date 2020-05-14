@@ -38,6 +38,9 @@
                     <div class="media-body ml-3">
                         <h5 class="mt-0"><%= comment.author.username %></h5>
                         <p><%= comment.text %></p>
+                        <a class="btn btn-sm btn-warning" 
+                            href="/campings/<%= camping._id %>/comments/<%= comment._id %>/edit">
+                                Edit</a>
                     </div>
                 </div>
                 <hr>
