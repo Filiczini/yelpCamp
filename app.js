@@ -15,11 +15,14 @@ let commentsRoutes = require("./routes/comments");
 let authRoutes = require("./routes/auth");
 
 // connect to db
-mongoose.connect("mongodb://localhost:27017/yelpCamp", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useFindAndModify: true,
-});
+mongoose.connect(
+  "mongodb+srv://Filiczini:Mm11012580*@cluster0-29qqw.gcp.mongodb.net/test?retryWrites=true&w=majority",
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: true,
+  }
+);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
