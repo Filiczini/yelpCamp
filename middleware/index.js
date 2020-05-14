@@ -9,17 +9,20 @@ middlewareObj.checkOwner = function (req, res, next) {
   if (req.isAuthenticated()) {
     Camping.findById(req.params.id, function (err, foundCamp) {
       if (err) {
+        req.flash("error", `Error: ${err}`);
         redirect("back");
       } else {
         if (foundCamp.author.id.equals(req.user._id)) {
           next();
         } else {
+          req.flash("error", "You don't have permission to to that");
           res.redirect("back");
         }
       }
     });
   } else {
-    res.redirect("back");
+    req.flash("error", "You need to be logged in to do that");
+    res.redirect("/campings");
   }
 };
 
@@ -33,11 +36,13 @@ middlewareObj.checkCommentOwner = function (req, res, next) {
         if (foundComment.author.id.equals(req.user._id)) {
           next();
         } else {
+          req.flash("error", "You don't have permission to to that");
           res.redirect("back");
         }
       }
     });
   } else {
+    req.flash("error", "You need to be logged in to do that");
     res.redirect("back");
   }
 };
