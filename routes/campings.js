@@ -1,6 +1,7 @@
 let express = require("express");
 let router = express.Router();
 let Camping = require("../models/camping");
+let middleware = require("../middleware");
 
 // INDEX - Display all Campings
 router.get("/", function (req, res) {
@@ -95,32 +96,5 @@ router.delete("/:id", checkOwner, function (req, res) {
     }
   });
 });
-
-// loging check func()
-function isLoggedIn(req, res, next) {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  res.redirect("/login");
-}
-
-// check the owner of post MIDDLEWARE
-function checkOwner(req, res, next) {
-  if (req.isAuthenticated()) {
-    Camping.findById(req.params.id, function (err, foundCamp) {
-      if (err) {
-        redirect("back");
-      } else {
-        if (foundCamp.author.id.equals(req.user._id)) {
-          next();
-        } else {
-          res.redirect("back");
-        }
-      }
-    });
-  } else {
-    res.redirect("back");
-  }
-}
 
 module.exports = router;

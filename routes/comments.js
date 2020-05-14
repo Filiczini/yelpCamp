@@ -2,6 +2,7 @@ let express = require("express");
 let router = express.Router({ mergeParams: true });
 let Camping = require("../models/camping");
 let Comment = require("../models/comment");
+let middleware = require("../middleware");
 
 // NEW - Display Form To Add Comment
 router.get("/new", isLoggedIn, function (req, res) {
@@ -75,31 +76,5 @@ router.delete("/:comment_id", checkCommentOwner, function (req, res) {
     }
   });
 });
-
-function checkCommentOwner(req, res, next) {
-  if (req.isAuthenticated()) {
-    Comment.findById(req.params.comment_id, function (err, foundComment) {
-      if (err) {
-        redirect("back");
-      } else {
-        if (foundComment.author.id.equals(req.user._id)) {
-          next();
-        } else {
-          res.redirect("back");
-        }
-      }
-    });
-  } else {
-    res.redirect("back");
-  }
-}
-
-// Middleware - loging check func()
-function isLoggedIn(req, res, next) {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  res.redirect("/login");
-}
 
 module.exports = router;
