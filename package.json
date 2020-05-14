@@ -4,7 +4,8 @@
   "description": "Yelp camp project by Udemy course",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "nodemon": "nodemon app.js",
+    "start": "node app.js"
   },
   "author": "Filiczini",
   "license": "ISC",
