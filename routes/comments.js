@@ -5,7 +5,7 @@ let Comment = require("../models/comment");
 let middleware = require("../middleware");
 
 // NEW - Display Form To Add Comment
-router.get("/new", isLoggedIn, function (req, res) {
+router.get("/new", middleware.isLoggedIn, function (req, res) {
   Camping.findById(req.params.id, function (err, camping) {
     if (err) {
       console.log(err);
@@ -16,7 +16,7 @@ router.get("/new", isLoggedIn, function (req, res) {
 });
 
 // CREATE - Create a new comment
-router.post("/", isLoggedIn, function (req, res) {
+router.post("/", middleware.isLoggedIn, function (req, res) {
   Camping.findById(req.params.id, function (err, camping) {
     if (err) {
       console.log(err);
@@ -39,7 +39,10 @@ router.post("/", isLoggedIn, function (req, res) {
 });
 
 //EDIT - Edit an exist comment by ID
-router.get("/:comment_id/edit", checkCommentOwner, function (req, res) {
+router.get("/:comment_id/edit", middleware.checkCommentOwner, function (
+  req,
+  res
+) {
   Comment.findById(req.params.comment_id, function (err, foundComment) {
     if (err) {
       console.log(err);
@@ -53,7 +56,7 @@ router.get("/:comment_id/edit", checkCommentOwner, function (req, res) {
 });
 
 //UPDATE - UPDATE an exist comment by ID
-router.put("/:comment_id", checkCommentOwner, function (req, res) {
+router.put("/:comment_id", middleware.checkCommentOwner, function (req, res) {
   Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function (
     err,
     updateComment
@@ -67,7 +70,10 @@ router.put("/:comment_id", checkCommentOwner, function (req, res) {
 });
 
 //DESTROY - DESTROY an exist comment by ID
-router.delete("/:comment_id", checkCommentOwner, function (req, res) {
+router.delete("/:comment_id", middleware.checkCommentOwner, function (
+  req,
+  res
+) {
   Comment.findByIdAndRemove(req.params.comment_id, function (err) {
     if (err) {
       console.log(err);

@@ -1,3 +1,6 @@
+let Camping = require("../models/camping");
+let Comment = require("../models/comment");
+
 // all the middleware goes here
 let middlewareObj = {};
 

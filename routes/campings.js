@@ -18,7 +18,7 @@ router.get("/", function (req, res) {
 });
 
 // CREATE - Add new Camping to DB
-router.post("/", isLoggedIn, function (req, res) {
+router.post("/", middleware.isLoggedIn, function (req, res) {
   let name = req.body.name;
   let url = req.body.url;
   let descr = req.body.descr;
@@ -44,7 +44,7 @@ router.post("/", isLoggedIn, function (req, res) {
 });
 
 // New - Show form to add New Camping
-router.get("/add", isLoggedIn, function (req, res) {
+router.get("/add", middleware.isLoggedIn, function (req, res) {
   res.render("campings/addCamp");
 });
 
@@ -62,7 +62,7 @@ router.get("/:id", function (req, res) {
 });
 
 // EDIT - edit a camping
-router.get("/:id/edit", checkOwner, function (req, res) {
+router.get("/:id/edit", middleware.checkOwner, function (req, res) {
   Camping.findById(req.params.id, function (err, foundCamp) {
     if (err) {
       console.log(err);
@@ -73,7 +73,7 @@ router.get("/:id/edit", checkOwner, function (req, res) {
 });
 
 // UPDATE - update a campground
-router.put("/:id", checkOwner, function (req, res) {
+router.put("/:id", middleware.checkOwner, function (req, res) {
   Camping.findByIdAndUpdate(req.params.id, req.body.camping, function (
     err,
     updatedCamp
@@ -87,7 +87,7 @@ router.put("/:id", checkOwner, function (req, res) {
 });
 
 //DESTROY - delete the camping
-router.delete("/:id", checkOwner, function (req, res) {
+router.delete("/:id", middleware.checkOwner, function (req, res) {
   Camping.findByIdAndRemove(req.params.id, function (err) {
     if (err) {
       console.log(err);
