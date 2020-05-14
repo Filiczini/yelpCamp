@@ -58,7 +58,7 @@ router.put("/:comment_id", function (req, res) {
     updateComment
   ) {
     if (err) {
-      console.log(err);
+      res.redirect("back");
     } else {
       res.redirect("/campings/" + req.params.id);
     }
